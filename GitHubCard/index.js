@@ -3,6 +3,9 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+import axios from "axios";
+
+axios.get("https://api.github.com/users/MinaMonsi").then();
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
