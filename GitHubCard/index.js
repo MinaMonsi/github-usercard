@@ -3,6 +3,17 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+import axios from "axios";
+
+axios.get("https://api.github.com/users/MinaMonsi").then(response => {
+  const userData = response.data;
+  console.log("userData", userData);
+  const card = cardMaker(userData);
+  console.log("card");
+})
+.catch(err => {
+  console.log(err)
+});
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -49,6 +60,54 @@ const followersArray = [];
       </div>
     </div>
 */
+
+function cardMaker(userData){
+  //Creating card div
+  const cards = document.querySelector('.cards');
+  const cardDiv = document.createElement('div');
+  cardDiv.classList.add('card');
+  const img = document.createElement('img');
+  //creating cardInfo div
+  const cardInfo = document.createElement('div');
+  cardInfo.classList.add('card-info');
+  const h3 = document.createElement('h3');
+  h3.classList.add('name')
+  //creating <p> & <a> for cardInfo
+  const paragraph1 = document.createElement('p');
+  const paragraph2 = document.createElement('p');
+  const paragraph3 = document.createElement('p');
+  const aTag = document.createElement('a');
+  const paragraph4 = document.createElement('p');
+  const paragraph5 = document.createElement('p');
+  const paragraph6 = document.createElement('p');
+  
+  //appending elements & adding text
+  cardDiv.appendChild(img);
+  img.src = `${userData.avatar_url}`;
+  cardDiv.appendChild(cardInfo);
+  cardInfo.appendChild(h3);
+  cardInfo.appendChild(paragraph1);
+  paragraph1.classList.add('username');
+  cardInfo.appendChild(paragraph2);
+  paragraph2.textContent = `Name: ${userData.name}`;
+  cardInfo.appendChild(paragraph3);
+  paragraph3.textContent = `Profile: ${userData.html_url}`;
+  cardInfo.appendChild(aTag);
+  cardInfo.appendChild(paragraph4);
+  paragraph4.textContent = `Followers: ${userData.followers}`
+  cardInfo.appendChild(paragraph5);
+  paragraph5.textContent = `Following: ${userData.following}`
+  cardInfo.appendChild(paragraph6);
+  paragraph6.textContent = `Bio: ${userData.bio}`;
+
+  cards.appendChild(cardDiv);
+
+  return cardDiv
+
+}
+
+
+
 
 /*
   List of LS Instructors Github username's:
