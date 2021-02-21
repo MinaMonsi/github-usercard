@@ -4,6 +4,7 @@
     https://api.github.com/users/<your name>
 */
 import axios from "axios";
+const cards = document.querySelector('.cards');
 
 axios.get("https://api.github.com/users/MinaMonsi").then(response => {
   const userData = response.data;
@@ -39,8 +40,20 @@ axios.get("https://api.github.com/users/MinaMonsi").then(response => {
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['nmonsivais', 'allraec', 'RodolfoJaspe', 'tetondan', 'dustinmyers'];
+//console.log(followersArray);
 
+
+ followersArray.forEach((item) => {
+  axios.get(`https://api.github.com/users/${item}`).then(response => {
+  cards.appendChild(cardMaker(response.data));
+  console.log(response);
+})
+.catch(err => {
+  console.log(err)
+});
+  
+ });
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
@@ -61,9 +74,9 @@ const followersArray = [];
     </div>
 */
 
+
 function cardMaker(userData){
   //Creating card div
-  const cards = document.querySelector('.cards');
   const cardDiv = document.createElement('div');
   cardDiv.classList.add('card');
   const img = document.createElement('img');
@@ -82,8 +95,8 @@ function cardMaker(userData){
   const paragraph6 = document.createElement('p');
   
   //appending elements & adding text
+  img.src = userData.avatar_url;
   cardDiv.appendChild(img);
-  img.src = `${userData.avatar_url}`;
   cardDiv.appendChild(cardInfo);
   cardInfo.appendChild(h3);
   cardInfo.appendChild(paragraph1);
@@ -91,7 +104,7 @@ function cardMaker(userData){
   cardInfo.appendChild(paragraph2);
   paragraph2.textContent = `Name: ${userData.name}`;
   cardInfo.appendChild(paragraph3);
-  paragraph3.textContent = `Profile: ${userData.html_url}`;
+  paragraph3.textContent = `Profile: ${userData.url}`;
   cardInfo.appendChild(aTag);
   cardInfo.appendChild(paragraph4);
   paragraph4.textContent = `Followers: ${userData.followers}`
@@ -100,6 +113,7 @@ function cardMaker(userData){
   cardInfo.appendChild(paragraph6);
   paragraph6.textContent = `Bio: ${userData.bio}`;
 
+  //appending cardDiv to it's parent
   cards.appendChild(cardDiv);
 
   return cardDiv
@@ -111,6 +125,9 @@ function cardMaker(userData){
 
 /*
   List of LS Instructors Github username's:
+    nmonsivais
+    allraec
+    RodolfoJaspe
     tetondan
     dustinmyers
     justsml
